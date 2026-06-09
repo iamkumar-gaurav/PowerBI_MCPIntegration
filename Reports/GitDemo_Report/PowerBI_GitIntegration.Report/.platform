@@ -1,11 +1,11 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
-    "type": "SemanticModel",
-    "displayName": "PowerBI_MCPIntegration"
+    "type": "Report",
+    "displayName": "PowerBI_GitIntegration"
   },
   "config": {
     "version": "2.0",
-    "logicalId": "30572162-c5a8-475e-b074-c65ec6c17844"
+    "logicalId": "defd6361-0749-49ea-b694-e44f378d6384"
   }
 }

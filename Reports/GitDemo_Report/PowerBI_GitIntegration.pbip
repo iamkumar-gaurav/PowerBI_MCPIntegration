@@ -4,7 +4,7 @@
   "artifacts": [
     {
       "report": {
-        "path": "PowerBI_MCPIntegration.Report"
+        "path": "PowerBI_GitIntegration.Report"
       }
     }
   ],
