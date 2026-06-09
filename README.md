@@ -63,6 +63,12 @@ By combining **Power BI** with **MCP**, you get dashboards that are not only vis
 ## 🎯 Demo
 Screenshots and walkthroughs will be added here as the project evolves.  
 
+<div style="display: flex; justify-content: center; gap: 20px;">
+  <img src="Asset/image/MCP.png" alt="MCP Dashboard Demo" width="400"/>
+  <img src="Asset/image/MCPBI.gif" alt="MCP BI Demo" width="400"/>
+</div>
+
+
 ## 🤝 Contributing
 This is a beginner project — feedback, suggestions, and improvements are welcome!  
 
