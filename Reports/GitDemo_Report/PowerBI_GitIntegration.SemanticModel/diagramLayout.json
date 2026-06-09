@@ -1,0 +1,100 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 437
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 201.19651685132345,
+            "y": 40.824721781067296
+          },
+          "nodeIndex": "HumanResources Department",
+          "nodeLineageTag": "a69df5b5-f29c-47e6-ac10-6532daae9e23",
+          "size": {
+            "height": 176,
+            "width": 287
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 529.80174208482742,
+            "y": 114.84885142671988
+          },
+          "nodeIndex": "HumanResources Employee",
+          "nodeLineageTag": "44a60759-6197-45b6-84a8-d58147c4f10b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 162.05091262638371,
+            "y": 460.16873921731667
+          },
+          "nodeIndex": "HumanResources EmployeeDepartmentHistory",
+          "nodeLineageTag": "2d219534-617b-4893-94af-9feaf17462e8",
+          "size": {
+            "height": 224,
+            "width": 409
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 774.83305846970529,
+            "y": -50
+          },
+          "nodeIndex": "HumanResources EmployeePayHistory",
+          "nodeLineageTag": "1c950327-e76a-4634-989d-f01805fd3a15",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 710.91034078602365,
+            "y": 461.902301844603
+          },
+          "nodeIndex": "HumanResources JobCandidate",
+          "nodeLineageTag": "4debec58-1e43-4452-bc1d-64adba3b7b21",
+          "size": {
+            "height": 176,
+            "width": 305
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 473,
+            "y": 714.54236549775317
+          },
+          "nodeIndex": "HumanResources Shift",
+          "nodeLineageTag": "628f8e5d-f5ee-4b77-bf0e-d6deb4d40c1d",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}
