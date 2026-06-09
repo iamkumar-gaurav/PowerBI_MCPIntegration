@@ -1,0 +1,88 @@
+table 'HumanResources Shift'
+	lineageTag: 628f8e5d-f5ee-4b77-bf0e-d6deb4d40c1d
+
+	/// Total count of unique shifts defined in the system
+	measure 'Total Shifts' = DISTINCTCOUNT('HumanResources Shift'[ShiftID])
+		lineageTag: bf92542c-f2c4-49df-8b76-dd11e3c21ec4
+
+	/// Count of employees assigned to day shift in current assignments
+	measure 'Day Shift Employees' = CALCULATE(DISTINCTCOUNT('HumanResources EmployeeDepartmentHistory'[BusinessEntityID]), 'HumanResources EmployeeDepartmentHistory'[EndDate] = BLANK(), 'HumanResources Shift'[Name] IN {"Day", "Morning"})
+		lineageTag: f772935f-3936-4d53-be2c-d2a1aeac57f7
+
+	/// Count of employees assigned to evening shift in current assignments
+	measure 'Evening Shift Employees' = CALCULATE(DISTINCTCOUNT('HumanResources EmployeeDepartmentHistory'[BusinessEntityID]), 'HumanResources EmployeeDepartmentHistory'[EndDate] = BLANK(), 'HumanResources Shift'[Name] = "Evening")
+		lineageTag: cdb30b30-4ff6-471a-b44e-a69177bd5e96
+
+	/// Count of employees assigned to night shift in current assignments
+	measure 'Night Shift Employees' = CALCULATE(DISTINCTCOUNT('HumanResources EmployeeDepartmentHistory'[BusinessEntityID]), 'HumanResources EmployeeDepartmentHistory'[EndDate] = BLANK(), 'HumanResources Shift'[Name] = "Night")
+		lineageTag: b1296f17-5b52-4f58-839a-cc3eb367f695
+
+	/// Percentage distribution of workforce across shifts
+	measure 'Shift Coverage %' = DIVIDE(CALCULATE(DISTINCTCOUNT('HumanResources EmployeeDepartmentHistory'[BusinessEntityID]), 'HumanResources EmployeeDepartmentHistory'[EndDate] = BLANK()), [Current Assignments])
+		lineageTag: 2d2166f7-1cdf-403d-86aa-272699aa2b3a
+
+	column ShiftID
+		dataType: int64
+		formatString: 0
+		lineageTag: 51e1e512-7fcd-408f-bd34-d0aa00b3839a
+		summarizeBy: none
+		sourceColumn: ShiftID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: 665b1250-325f-4ab2-9de6-bf89c40a9dc5
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartTime
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: 6260aaa1-f852-4334-bce8-a7bee62b4b25
+		summarizeBy: none
+		sourceColumn: StartTime
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column EndTime
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: cd70d30a-5ba1-4799-a3f5-87ca35c33daa
+		summarizeBy: none
+		sourceColumn: EndTime
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column ModifiedDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 3222dc6e-c8cd-4313-a852-d84f5c3aa4eb
+		summarizeBy: none
+		sourceColumn: ModifiedDate
+
+		variation Variation
+			isDefault
+			relationship: 6613530c-8361-4dd9-96e6-f93e78ae44a1
+			defaultHierarchy: LocalDateTable_638a4cb3-d239-4e73-86b5-dc6e69898d5d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'HumanResources Shift' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("localhost\SQLEXPRESS"),
+				    AdventureWorks2022 = Source{[Name="AdventureWorks2022"]}[Data],
+				    HumanResources_Shift = AdventureWorks2022{[Schema="HumanResources",Item="Shift"]}[Data]
+				in
+				    HumanResources_Shift
+
+	annotation PBI_ResultType = Table
+

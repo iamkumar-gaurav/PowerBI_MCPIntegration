@@ -1,0 +1,222 @@
+table 'HumanResources Employee'
+	lineageTag: 44a60759-6197-45b6-84a8-d58147c4f10b
+
+	/// Count of active employees (CurrentFlag = True)
+	measure 'Current Employees' = CALCULATE(DISTINCTCOUNT('HumanResources Employee'[BusinessEntityID]), 'HumanResources Employee'[CurrentFlag] = TRUE())
+		lineageTag: 0d045bee-13a7-497f-b9f3-48c8e762e2c5
+
+	/// Count of all employees including terminated
+	measure 'Total Employees' = DISTINCTCOUNT('HumanResources Employee'[BusinessEntityID])
+		lineageTag: d26d2d25-f2aa-4a91-a4a7-919e9df9c986
+
+	/// Average years of service from HireDate to today
+	measure 'Average Tenure (Years)' = AVERAGEX('HumanResources Employee', DATEDIFF('HumanResources Employee'[HireDate], TODAY(), YEAR))
+		lineageTag: 13b8bef1-7d34-4d33-8bd2-c7dec24d97a2
+
+	/// Executive-level employees (OrganizationLevel = 1)
+	measure 'Org Level 1 Count' = CALCULATE(DISTINCTCOUNT('HumanResources Employee'[BusinessEntityID]), 'HumanResources Employee'[OrganizationLevel] = 1)
+		lineageTag: fe3cc8d0-6cde-4db0-97fb-fb9b8cc03cff
+
+	/// Count of employees on salary (SalariedFlag = True)
+	measure 'Salaried Employees' = CALCULATE(DISTINCTCOUNT('HumanResources Employee'[BusinessEntityID]), 'HumanResources Employee'[SalariedFlag] = TRUE())
+		lineageTag: 568a9863-4e02-48e7-9d46-f8f4d12c73ef
+
+	/// Count of employees on hourly pay (SalariedFlag = False)
+	measure 'Hourly Employees' = CALCULATE(DISTINCTCOUNT('HumanResources Employee'[BusinessEntityID]), 'HumanResources Employee'[SalariedFlag] = FALSE())
+		lineageTag: 312ff720-a3bd-449f-83b0-0f1bcc8a5ccd
+
+	/// Debug: Count of terminated employees
+	measure 'DEBUG - Terminated Count' = CALCULATE(DISTINCTCOUNT('HumanResources Employee'[BusinessEntityID]), 'HumanResources Employee'[CurrentFlag] = FALSE())
+		lineageTag: 84bea413-e58d-407d-81ab-6c8e460e8ee6
+
+	/// Debug: Count of all employees
+	measure 'DEBUG - Total Count' = DISTINCTCOUNT('HumanResources Employee'[BusinessEntityID])
+		lineageTag: 3c109b5b-5c06-4aa5-8b81-fc2619e86f28
+
+	/// Turnover rate as % - simplified (uses Employee table to avoid context issues)
+	measure 'Turnover Rate % (Fixed)' = IF(DISTINCTCOUNT('HumanResources Employee'[BusinessEntityID]) = 0, 0, CALCULATE(DISTINCTCOUNT('HumanResources Employee'[BusinessEntityID]), 'HumanResources Employee'[CurrentFlag] = FALSE()) / DISTINCTCOUNT('HumanResources Employee'[BusinessEntityID]))
+		formatString: 0.00%
+		lineageTag: 57f01342-de53-415e-a20b-83142c3fd91e
+
+	/// Debug: Count current employees (CurrentFlag = TRUE)
+	measure 'DEBUG - Current Count' = CALCULATE(DISTINCTCOUNT('HumanResources Employee'[BusinessEntityID]), 'HumanResources Employee'[CurrentFlag] = TRUE())
+		lineageTag: e411464e-f47a-4086-8b34-5c3dd5938b96
+
+	/// Turnover rate (currently all active employees)
+	measure 'Turnover Rate % (v3)' = 0
+		formatString: 0.00%
+		lineageTag: 177db071-9bb5-4094-8759-74872b483871
+
+	column BusinessEntityID
+		dataType: int64
+		formatString: 0
+		lineageTag: 42cdcd05-aaff-4ce8-b1e7-95a399957e92
+		summarizeBy: none
+		sourceColumn: BusinessEntityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column NationalIDNumber
+		dataType: string
+		lineageTag: c18ba948-f086-42a4-a807-3283fa02132b
+		summarizeBy: none
+		sourceColumn: NationalIDNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoginID
+		dataType: string
+		lineageTag: 94927277-04d9-46c8-bc94-e4a9d34bb785
+		summarizeBy: none
+		sourceColumn: LoginID
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrganizationNode
+		dataType: string
+		lineageTag: 8157ba1e-b49c-42a0-9a5e-1b182a6bf90a
+		summarizeBy: none
+		sourceColumn: OrganizationNode
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrganizationLevel
+		dataType: int64
+		formatString: 0
+		lineageTag: ffc79f52-5304-4bb1-9b79-6446eadd924b
+		summarizeBy: sum
+		sourceColumn: OrganizationLevel
+
+		annotation SummarizationSetBy = Automatic
+
+	column JobTitle
+		dataType: string
+		lineageTag: 1cda0c02-b809-496a-934d-b3a081da1afd
+		summarizeBy: none
+		sourceColumn: JobTitle
+
+		annotation SummarizationSetBy = Automatic
+
+	column BirthDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 8750cf70-26a2-40a4-84e3-42ca212cc9cc
+		summarizeBy: none
+		sourceColumn: BirthDate
+
+		variation Variation
+			isDefault
+			relationship: 01cb7580-b9d6-404c-825b-813c7469cc35
+			defaultHierarchy: LocalDateTable_f5b5c290-d792-4995-9466-1e388d844e7d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column MaritalStatus
+		dataType: string
+		lineageTag: 0ad7c3e7-3cd2-4fc3-9505-1c969786b675
+		summarizeBy: none
+		sourceColumn: MaritalStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		lineageTag: 908a5e38-e089-4293-9860-d98f35a1f5c7
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column HireDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1690db84-0261-45ee-a95a-052de0c66203
+		summarizeBy: none
+		sourceColumn: HireDate
+
+		variation Variation
+			isDefault
+			relationship: d92ef5f4-c4cf-4afd-b6bb-2cf3000299a3
+			defaultHierarchy: LocalDateTable_46508177-ac8c-49cd-ace2-7efd2fb5a139.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column SalariedFlag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 2dab7bb5-eb13-496a-8ee8-1687b15739f8
+		summarizeBy: none
+		sourceColumn: SalariedFlag
+
+		annotation SummarizationSetBy = Automatic
+
+	column VacationHours
+		dataType: int64
+		formatString: 0
+		lineageTag: 5107dd1a-6387-46ca-84f0-04e9235722a7
+		summarizeBy: sum
+		sourceColumn: VacationHours
+
+		annotation SummarizationSetBy = Automatic
+
+	column SickLeaveHours
+		dataType: int64
+		formatString: 0
+		lineageTag: 03ced318-1cf7-40a9-b64a-9e35a50a5fd4
+		summarizeBy: sum
+		sourceColumn: SickLeaveHours
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrentFlag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 12d03319-cc60-45e3-9e53-7aa4bbc97e92
+		summarizeBy: none
+		sourceColumn: CurrentFlag
+
+		annotation SummarizationSetBy = Automatic
+
+	column rowguid
+		dataType: string
+		lineageTag: 533fa05a-f121-42b7-9485-b7da3997e01c
+		summarizeBy: none
+		sourceColumn: rowguid
+
+		annotation SummarizationSetBy = Automatic
+
+	column ModifiedDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 58270459-722e-4106-8681-2d842927522c
+		summarizeBy: none
+		sourceColumn: ModifiedDate
+
+		variation Variation
+			isDefault
+			relationship: 526c6ed5-b737-4f70-a931-b75b3e507f1e
+			defaultHierarchy: LocalDateTable_91d511c8-b9a1-4f8d-844a-dcee26d355e9.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Organizational level label based on OrganizationLevel (1=Executive, 2=Manager, 3+ Specialist)
+	column 'Org Level Label' = SWITCH('HumanResources Employee'[OrganizationLevel], 1, "Executive", 2, "Manager", 3, "Senior Specialist", 4, "Specialist", "Other")
+		dataType: string
+		lineageTag: 1eb0259c-e2ee-44d8-9c22-d03c385c40c8
+
+	partition 'HumanResources Employee' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("localhost\SQLEXPRESS"),
+				    AdventureWorks2022 = Source{[Name="AdventureWorks2022"]}[Data],
+				    HumanResources_Employee = AdventureWorks2022{[Schema="HumanResources",Item="Employee"]}[Data]
+				in
+				    HumanResources_Employee
+
+	annotation PBI_ResultType = Table
+
