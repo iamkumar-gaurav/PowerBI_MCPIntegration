@@ -1,0 +1,100 @@
+table 'HumanResources EmployeePayHistory'
+	lineageTag: 1c950327-e76a-4634-989d-f01805fd3a15
+
+	/// Total annual payroll if all current employees earn at their latest rate
+	measure 'Total Annual Payroll' = SUMX(FILTER(DISTINCT('HumanResources EmployeePayHistory'[BusinessEntityID]), RELATED('HumanResources Employee'[CurrentFlag]) = TRUE()), 'HumanResources EmployeePayHistory'[Rate])
+		lineageTag: cb0fa97a-257b-4330-a85d-1a1c04f0f222
+
+	/// Maximum pay rate in dataset
+	measure 'Max Salary' = MAX('HumanResources EmployeePayHistory'[Rate])
+		lineageTag: 1f3c808b-7a2c-4e6d-aa1f-0949ee0baa81
+
+	/// Minimum pay rate in dataset
+	measure 'Min Salary' = MIN('HumanResources EmployeePayHistory'[Rate])
+		lineageTag: 654b3ff7-ab42-472a-97e0-83577a69132e
+
+	/// Salary range (Max - Min)
+	measure 'Salary Range' = [Max Salary] - [Min Salary]
+		lineageTag: d9fca511-a191-4b8c-bea0-6ebd4be304ca
+
+	/// Percentage of active employees who are salaried
+	measure 'Salaried %' = DIVIDE([Salaried Employees], [Current Employees])
+		lineageTag: 362af06f-fa17-443f-be6c-75994f152d06
+
+	/// Average of the latest salary rate for all current active employees
+	measure 'Average Current Salary' =
+			VAR ActiveEmps = FILTER('HumanResources Employee', 'HumanResources Employee'[CurrentFlag] = TRUE())
+			VAR PayWithActive = FILTER('HumanResources EmployeePayHistory', RELATED('HumanResources Employee'[CurrentFlag]) = TRUE())
+			VAR LatestPerEmp = SUMMARIZE(PayWithActive, 'HumanResources EmployeePayHistory'[BusinessEntityID], "MaxRate", MAX('HumanResources EmployeePayHistory'[Rate]))
+			RETURN AVERAGEX(LatestPerEmp, [MaxRate])
+		lineageTag: 178d91e8-fcad-43ab-a189-2b20a4cbc105
+
+	column BusinessEntityID
+		dataType: int64
+		formatString: 0
+		lineageTag: e851c12b-d99a-4077-a2bf-931eba8b3ee5
+		summarizeBy: none
+		sourceColumn: BusinessEntityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column RateChangeDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 49385fda-9ee9-4d08-b6cc-18cb4ff5bcc7
+		summarizeBy: none
+		sourceColumn: RateChangeDate
+
+		variation Variation
+			isDefault
+			relationship: 201a170b-8d4b-4f24-9aae-db333d93ab61
+			defaultHierarchy: LocalDateTable_84830506-6249-42cd-a2a1-00720c4620f5.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Rate
+		dataType: decimal
+		formatString: "₹"\ #,0.###############;#,0.###############\ -"₹";"₹"\ #,0.###############
+		lineageTag: 2a02223a-5152-4649-b6e1-4e2c57fa44c1
+		summarizeBy: sum
+		sourceColumn: Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-IN"}
+
+	column PayFrequency
+		dataType: int64
+		formatString: 0
+		lineageTag: dd996d83-ecaa-40b0-8e71-50eec599f63a
+		summarizeBy: sum
+		sourceColumn: PayFrequency
+
+		annotation SummarizationSetBy = Automatic
+
+	column ModifiedDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8c1d1e52-16a9-48cd-aea4-7e9b0abc5405
+		summarizeBy: none
+		sourceColumn: ModifiedDate
+
+		variation Variation
+			isDefault
+			relationship: 3d7f3c9a-a3ce-414d-9896-6662edf4b3ad
+			defaultHierarchy: LocalDateTable_f9e07b86-4ec4-472f-8420-992564669ece.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'HumanResources EmployeePayHistory' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("localhost\SQLEXPRESS"),
+				    AdventureWorks2022 = Source{[Name="AdventureWorks2022"]}[Data],
+				    HumanResources_EmployeePayHistory = AdventureWorks2022{[Schema="HumanResources",Item="EmployeePayHistory"]}[Data]
+				in
+				    HumanResources_EmployeePayHistory
+
+	annotation PBI_ResultType = Table
+

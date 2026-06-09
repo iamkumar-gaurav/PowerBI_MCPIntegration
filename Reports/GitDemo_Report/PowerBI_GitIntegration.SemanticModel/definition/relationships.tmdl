@@ -1,0 +1,85 @@
+relationship 0016c28a-ca32-436e-a885-59827fe6c497
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'HumanResources Department'.ModifiedDate
+	toColumn: LocalDateTable_0c9f6399-f334-4dde-b9ec-1071a65ba7df.Date
+
+relationship 01cb7580-b9d6-404c-825b-813c7469cc35
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'HumanResources Employee'.BirthDate
+	toColumn: LocalDateTable_f5b5c290-d792-4995-9466-1e388d844e7d.Date
+
+relationship d92ef5f4-c4cf-4afd-b6bb-2cf3000299a3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'HumanResources Employee'.HireDate
+	toColumn: LocalDateTable_46508177-ac8c-49cd-ace2-7efd2fb5a139.Date
+
+relationship 526c6ed5-b737-4f70-a931-b75b3e507f1e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'HumanResources Employee'.ModifiedDate
+	toColumn: LocalDateTable_91d511c8-b9a1-4f8d-844a-dcee26d355e9.Date
+
+relationship 201a170b-8d4b-4f24-9aae-db333d93ab61
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'HumanResources EmployeePayHistory'.RateChangeDate
+	toColumn: LocalDateTable_84830506-6249-42cd-a2a1-00720c4620f5.Date
+
+relationship 3d7f3c9a-a3ce-414d-9896-6662edf4b3ad
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'HumanResources EmployeePayHistory'.ModifiedDate
+	toColumn: LocalDateTable_f9e07b86-4ec4-472f-8420-992564669ece.Date
+
+relationship 877d1da4-24c6-4022-8cf7-ac1d7e6f1a79
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'HumanResources EmployeeDepartmentHistory'.StartDate
+	toColumn: LocalDateTable_968a8717-6ac4-421b-afca-a6b314b2b8a6.Date
+
+relationship abfc36b0-31d3-42b0-9e5f-f0a82e1b227a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'HumanResources EmployeeDepartmentHistory'.EndDate
+	toColumn: LocalDateTable_fe373256-eb9d-4f9d-a8e7-f972aa761dcf.Date
+
+relationship 06727726-dd95-4a39-845c-5b40b7c3f124
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'HumanResources EmployeeDepartmentHistory'.ModifiedDate
+	toColumn: LocalDateTable_f8ca6f23-25b9-441f-8e44-452f3cd857db.Date
+
+relationship d51a173a-f642-4c1b-b095-a43ca638741e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'HumanResources JobCandidate'.ModifiedDate
+	toColumn: LocalDateTable_fd73edba-4654-491e-aca8-1d1ca5d0e44b.Date
+
+relationship 6613530c-8361-4dd9-96e6-f93e78ae44a1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'HumanResources Shift'.ModifiedDate
+	toColumn: LocalDateTable_638a4cb3-d239-4e73-86b5-dc6e69898d5d.Date
+
+relationship f45eae48-de35-4aff-bb7d-1b1f7bcb793d
+	fromColumn: 'HumanResources EmployeePayHistory'.BusinessEntityID
+	toColumn: 'HumanResources Employee'.BusinessEntityID
+
+	annotation PBI_IsFromSource = FS
+
+relationship 821ae530-ba64-4c22-8e02-3e180364e601
+	fromColumn: 'HumanResources EmployeeDepartmentHistory'.DepartmentID
+	toColumn: 'HumanResources Department'.DepartmentID
+
+	annotation PBI_IsFromSource = FS
+
+relationship 4225deea-3fba-4cc9-81c8-5ce7354dbbe1
+	fromColumn: 'HumanResources EmployeeDepartmentHistory'.BusinessEntityID
+	toColumn: 'HumanResources Employee'.BusinessEntityID
+
+	annotation PBI_IsFromSource = FS
+
+relationship bfbb4ef0-0612-4e8d-8dc8-2f4ff605ecc0
+	fromColumn: 'HumanResources EmployeeDepartmentHistory'.ShiftID
+	toColumn: 'HumanResources Shift'.ShiftID
+
+	annotation PBI_IsFromSource = FS
+
+relationship e80643f6-ceb2-41bc-acbe-437876c0456e
+	fromColumn: 'HumanResources JobCandidate'.BusinessEntityID
+	toColumn: 'HumanResources Employee'.BusinessEntityID
+
+	annotation PBI_IsFromSource = FS
+

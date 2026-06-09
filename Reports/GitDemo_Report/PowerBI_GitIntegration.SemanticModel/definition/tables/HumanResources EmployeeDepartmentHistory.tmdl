@@ -1,0 +1,112 @@
+table 'HumanResources EmployeeDepartmentHistory'
+	lineageTag: 2d219534-617b-4893-94af-9feaf17462e8
+
+	/// Count of employees who have left the company (CurrentFlag = False)
+	measure 'Terminated Employees' = CALCULATE(DISTINCTCOUNT('HumanResources Employee'[BusinessEntityID]), 'HumanResources Employee'[CurrentFlag] = FALSE())
+		lineageTag: 7e196ee0-18f5-4589-842b-95b621c932fc
+
+	/// Turnover rate as a percentage (Terminated / Total) - returns 0% if no terminated employees
+	measure 'Turnover Rate %' =
+			VAR Terminated = CALCULATE(DISTINCTCOUNT('HumanResources Employee'[BusinessEntityID]), 'HumanResources Employee'[CurrentFlag] = FALSE())
+			VAR Total = DISTINCTCOUNT('HumanResources Employee'[BusinessEntityID])
+			RETURN DIVIDE(Terminated, Total, 0)
+		formatString: 0.00%
+		lineageTag: b371058a-324f-45db-8bb6-64053f1d6c8c
+
+	/// Count of active employees in current department/role assignment
+	measure 'Current Assignments' = CALCULATE(DISTINCTCOUNT('HumanResources EmployeeDepartmentHistory'[BusinessEntityID]), 'HumanResources EmployeeDepartmentHistory'[EndDate] = BLANK())
+		lineageTag: 0593df4d-10d8-4fb6-81c1-32d1503aee6c
+
+	/// Average tenure in current role (days)
+	measure 'Avg Role Tenure (Days)' = AVERAGEX(FILTER('HumanResources EmployeeDepartmentHistory', 'HumanResources EmployeeDepartmentHistory'[EndDate] = BLANK()), DATEDIFF('HumanResources EmployeeDepartmentHistory'[StartDate], TODAY(), DAY))
+		lineageTag: e2013f42-8f18-4972-86e5-86252e1e977b
+
+	/// Count of historical role changes (EndDate not null)
+	measure 'Completed Assignments' = CALCULATE(COUNTA('HumanResources EmployeeDepartmentHistory'[EndDate]), 'HumanResources EmployeeDepartmentHistory'[EndDate] <> BLANK())
+		lineageTag: a1dd118e-c80b-4a1e-a5c9-ebb25e3e0458
+
+	column BusinessEntityID
+		dataType: int64
+		formatString: 0
+		lineageTag: 7198fd03-7dbe-4a2b-b2e8-563439742907
+		summarizeBy: none
+		sourceColumn: BusinessEntityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DepartmentID
+		dataType: int64
+		formatString: 0
+		lineageTag: d3d509de-e8a3-4493-b4a1-8369ed0153e7
+		summarizeBy: none
+		sourceColumn: DepartmentID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShiftID
+		dataType: int64
+		formatString: 0
+		lineageTag: 1d0c2c8a-cbe1-41f0-aba4-ab7e20940de0
+		summarizeBy: none
+		sourceColumn: ShiftID
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9ea9916c-d231-471e-a1a3-97f7ab4d9668
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		variation Variation
+			isDefault
+			relationship: 877d1da4-24c6-4022-8cf7-ac1d7e6f1a79
+			defaultHierarchy: LocalDateTable_968a8717-6ac4-421b-afca-a6b314b2b8a6.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column EndDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c67f1400-7b6e-4792-926b-dad7abbba3a4
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		variation Variation
+			isDefault
+			relationship: abfc36b0-31d3-42b0-9e5f-f0a82e1b227a
+			defaultHierarchy: LocalDateTable_fe373256-eb9d-4f9d-a8e7-f972aa761dcf.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ModifiedDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d64f8cc5-c75b-4960-8e1d-3305d2da18f1
+		summarizeBy: none
+		sourceColumn: ModifiedDate
+
+		variation Variation
+			isDefault
+			relationship: 06727726-dd95-4a39-845c-5b40b7c3f124
+			defaultHierarchy: LocalDateTable_f8ca6f23-25b9-441f-8e44-452f3cd857db.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'HumanResources EmployeeDepartmentHistory' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("localhost\SQLEXPRESS"),
+				    AdventureWorks2022 = Source{[Name="AdventureWorks2022"]}[Data],
+				    HumanResources_EmployeeDepartmentHistory = AdventureWorks2022{[Schema="HumanResources",Item="EmployeeDepartmentHistory"]}[Data]
+				in
+				    HumanResources_EmployeeDepartmentHistory
+
+	annotation PBI_ResultType = Table
+

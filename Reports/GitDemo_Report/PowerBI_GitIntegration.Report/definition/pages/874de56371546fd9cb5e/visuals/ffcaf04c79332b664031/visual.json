@@ -1,0 +1,81 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "ffcaf04c79332b664031",
+  "position": {
+    "x": 31.666666666666668,
+    "y": 420,
+    "z": 4000,
+    "height": 210,
+    "width": 408.33333333333337,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "This dashboard is created with seamless integration between Power BI Desktop and ",
+                    "textStyle": {
+                      "fontFamily": "Times New Roman",
+                      "fontSize": "14pt",
+                      "color": "#8f1e00"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Microsoft Cloud Platform (MCP) via localhost\\SQLEXPRESS, enabling real-time HR analytics ",
+                    "textStyle": {
+                      "fontFamily": "Times New Roman",
+                      "fontSize": "14pt",
+                      "color": "#8f1e00"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "and data-driven insights powered by AdventureWorks2022 database.",
+                    "textStyle": {
+                      "fontFamily": "Times New Roman",
+                      "fontSize": "14pt",
+                      "color": "#8f1e00"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFD299'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,35 @@
+model Model
+	culture: en-GB
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["HumanResources Department","HumanResources Employee","HumanResources EmployeePayHistory","HumanResources EmployeeDepartmentHistory","HumanResources JobCandidate","HumanResources Shift"]
+
+annotation PBI_ProTooling = ["MCP-PBIModeling","DevMode"]
+
+ref table 'HumanResources Department'
+ref table DateTableTemplate_19d1f40c-1585-4f15-9734-80b34a584f3f
+ref table LocalDateTable_0c9f6399-f334-4dde-b9ec-1071a65ba7df
+ref table 'HumanResources Employee'
+ref table LocalDateTable_f5b5c290-d792-4995-9466-1e388d844e7d
+ref table LocalDateTable_46508177-ac8c-49cd-ace2-7efd2fb5a139
+ref table LocalDateTable_91d511c8-b9a1-4f8d-844a-dcee26d355e9
+ref table 'HumanResources EmployeePayHistory'
+ref table LocalDateTable_84830506-6249-42cd-a2a1-00720c4620f5
+ref table LocalDateTable_f9e07b86-4ec4-472f-8420-992564669ece
+ref table 'HumanResources EmployeeDepartmentHistory'
+ref table LocalDateTable_968a8717-6ac4-421b-afca-a6b314b2b8a6
+ref table LocalDateTable_fe373256-eb9d-4f9d-a8e7-f972aa761dcf
+ref table LocalDateTable_f8ca6f23-25b9-441f-8e44-452f3cd857db
+ref table 'HumanResources JobCandidate'
+ref table LocalDateTable_fd73edba-4654-491e-aca8-1d1ca5d0e44b
+ref table 'HumanResources Shift'
+ref table LocalDateTable_638a4cb3-d239-4e73-86b5-dc6e69898d5d
+
+ref cultureInfo en-GB
+
